@@ -1,23 +1,39 @@
 import java.util.*;
+
 public class Transaction {
-
-    private char type;
+    // Attributes
+    private int transactionID;
+    private Account sourceAccount;
+    private Account destinationAccount;
     private double amount;
-    private double balance;
-    private Date date;
-    private String Description;
+    private Date timestamp;
 
-    public Transaction(char type, double amount, double balance, String Description){
-        this.type = type;
+    // Constructor
+    public Transaction(int transactionID, Account sourceAccount, Account destinationAccount, double amount) {
+        this.transactionID = transactionID;
+        this.sourceAccount = sourceAccount;
+        this.destinationAccount = destinationAccount;
         this.amount = amount;
-        this.balance = balance;
-        this.Description = Description;
-        date = new Date();
-
-    }
-    @Override
-    public String toString() {
-        return "Type: " + type + ", Amount: " + amount + ", Balance after transaction: " + balance + ", Date: " + date + ", Description: " + Description;
+        this.timestamp = new Date();
     }
 
+    // Methods
+    // Execute the transaction
+    public void execute() {
+        // Check if the source account has sufficient balance
+        if (sourceAccount.getBalance() >= amount && amount > 0) {
+            // Withdraw from the source account and deposit to the destination account
+            sourceAccount.withdraw(amount);
+            destinationAccount.deposit(amount);
+            // Display transaction details
+            System.out.println("Transaction ID: " + transactionID);
+            System.out.println("Source Account: " + sourceAccount.getAccountNum());
+            System.out.println("Destination Account: " + destinationAccount.getAccountNum());
+            System.out.println("Amount: " + amount);
+            System.out.println("Timestamp: " + timestamp);
+            System.out.println();
+        } else {
+            System.out.println("Transaction failed: Insufficient balance.");
+        }
+    }
 }

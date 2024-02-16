@@ -1,56 +1,72 @@
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Account {
-    private int id;
+    private int accountNum;
     private double balance;
-    private double annualInterestRate;
-    private Date dateCreated;
-    private ArrayList<Transaction> transactions;
+    private Client owner;
+    private List<String> transactionDetails;
 
-    public Account(int id, double balance, double annualInterestRate) {
-        this.id = id;
+    public Account(int accountNum, double balance, Client owner) {
+        this.accountNum = accountNum;
         this.balance = balance;
-        this.annualInterestRate = annualInterestRate;
-        this.dateCreated = new Date();
-        this.transactions = new ArrayList<>();
-    }
-
-    public int getId() {
-        return id;
+        this.owner = owner;
+        this.transactionDetails = new ArrayList<>();
     }
 
     public double getBalance() {
         return balance;
     }
 
-    public double getAnnualInterestRate() {
-        return annualInterestRate;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
+    public int getAccountNum() {
+        return accountNum;
     }
 
-    public boolean withdraw(double amount) {
-        if (this.balance < amount)
-            return false;
-        this.balance -= amount;
-        transactions.add(new Transaction('W', amount, this.balance, "Withdrawal"));
-        return true;
+    public void setAccountNum(int accountNum) {
+        this.accountNum = accountNum;
+    }
+
+    public Client getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Client owner) {
+        this.owner = owner;
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= this.balance) {
+            balance -= amount;
+            recordTransaction("Withdrawal of $" + amount);
+        } else {
+            recordTransaction("Withdrawal failed: Insufficient balance");
+        }
     }
 
     public void deposit(double amount) {
-        this.balance += amount;
-        transactions.add(new Transaction('D', amount, this.balance, "Deposit"));
+        if (amount > 0) {
+            balance += amount;
+            recordTransaction("Deposit of $" + amount);
+        } else {
+            recordTransaction("Deposit failed: Invalid amount");
+        }
     }
 
-    public String toString() {
-        return "Account ID: " + id + "\nBalance: $" + balance + "\nAnnual Interest Rate: " + annualInterestRate
-                + "\nDate Created: " + dateCreated + "\n";
+    public void recordTransaction(String details) {
+        transactionDetails.add(details);
     }
 
-    public ArrayList<Transaction> getTransactions() {
-        return transactions;
+    public void displayInfo() {
+        System.out.println("Account Number: " + accountNum);
+        System.out.println("Current Balance: " + balance);
+        System.out.println("Owner: " + owner.getName());
+        System.out.println("Transaction Details:");
+        for (String detail : transactionDetails) {
+            System.out.println("- " + detail);
+        }
     }
 }

@@ -1,16 +1,19 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Client {
-    private int id;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    // Defining attributes
+    private int CLIENTid;
     private String name;
+    private ArrayList<Account> accounts;
+
+    public int getCLIENTid() {
+        return CLIENTid;
+    }
+
+    public void setCLIENTid(int CLIENTid) {
+        this.CLIENTid = CLIENTid;
+    }
 
     public String getName() {
         return name;
@@ -20,47 +23,31 @@ public class Client {
         this.name = name;
     }
 
-    private String phone;
-
-    public String getPhone() {
-        return phone;
+    public List<Account> getAccounts() {
+        return accounts;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAccounts(ArrayList<Account> accounts) {
+        this.accounts = accounts;
     }
 
-    private ArrayList<Account> accounts;
-
-
-    public Client(int id, String name, String phone){
-        this.id = id;
+    // Client constructor
+    public Client(int CLIENTid, String name) {
+        this.CLIENTid = CLIENTid;
         this.name = name;
-        this.phone = phone;
-
-        accounts = new ArrayList<Account>();
-    }
-    public boolean addAccount(Account account){
-        accounts.add(account);
-        return true;
-    }
-    public boolean removeAccount(int accountID) {
-        java.util.Iterator<Account> iterator = accounts.iterator();
-        while (iterator.hasNext()) {
-            Account account = iterator.next();
-            if (account.getId() == accountID) {
-                iterator.remove();
-                return true;
-            }
-        }
-        return false;
-    }
-    public String toString(){
-        String S = this.id+" "+this.phone+" "+this.name+"/n";
-        for (Account account : accounts){
-            S += account.toString()+"/n";
-        }
-        return S;
+        this.accounts = new ArrayList<>(); // New instance of the account class
     }
 
+    // Required attributes
+    // To add accounts
+    public void AccountADD(Account account) {
+        accounts.add(account); // Adds a new account to the list
+    }
+
+    public void displayInfo() {
+        System.out.println("Client ID: " + CLIENTid + " Name of the client: " + name);
+        for (Account account : accounts) {
+            account.displayInfo();
+        }
+    }
 }
