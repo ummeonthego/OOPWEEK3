@@ -23,7 +23,7 @@ public class Client {
         this.name = name;
     }
 
-    public List<Account> getAccounts() {
+    public ArrayList<Account> getAccounts() {
         return accounts;
     }
 
